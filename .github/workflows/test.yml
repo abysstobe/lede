@@ -9,7 +9,7 @@ name: OpenWrt-CI
 
 on:
   schedule:
-    - cron: 35 17 * * *
+    - cron: 33 23 * * *
   release:
     types: [published]
 
@@ -53,7 +53,7 @@ jobs:
           git clone https://github.com/immortalwrt/openwrt-gowebdav.git
           git clone https://github.com/fw876/helloworld.git
           git clone https://github.com/vernesong/OpenClash.git
-          
+          git clone https://github.com/coolsnowwolf/lede
           
       - name: Update feeds
         run: |
