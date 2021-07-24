@@ -14,7 +14,7 @@ on:
     branches: 
       - master
   schedule:
-    - cron: 4 9 * * *
+    - cron: 21 9 * * *
   release:
     types: [published]
 
@@ -66,7 +66,6 @@ jobs:
           git clone https://github.com/immortalwrt/openwrt-gowebdav.git
           git clone https://github.com/fw876/helloworld.git
           git clone https://github.com/vernesong/OpenClash.git
-          git clone https://github.com/kenzok8/small.git
           git clone https://github.com/xiaorouji/openwrt-passwall.git
           
       - name: Update feeds
@@ -83,16 +82,16 @@ jobs:
            CONFIG_TARGET_x86=y
            CONFIG_TARGET_x86_64=y
            CONFIG_TARGET_x86_64_Generic=y
-           EOF
+          EOF
            
           cat >> .config <<EOF
            CONFIG_TARGET_IMAGES_GZIP=y
-           EOF
+          EOF
            
           cat >> .config <<EOF
            CONFIG_PACKAGE_dnsmasq_full_dhcpv6=y
            CONFIG_PACKAGE_ipv6helper=y
-           EOF
+          EOF
            
           cat >> .config <<EOF 
            CONFIG_PACKAGE_kmod-fs-nfs=y
@@ -101,7 +100,7 @@ jobs:
            CONFIG_PACKAGE_kmod-fs-nfs-v4=y
            CONFIG_PACKAGE_kmod-fs-ntfs=y
            CONFIG_PACKAGE_kmod-fs-squashfs=y
-           EOF
+          EOF
            
           cat >> .config <<EOF 
            CONFIG_PACKAGE_kmod-usb-ohci=y
@@ -109,7 +108,7 @@ jobs:
            CONFIG_PACKAGE_kmod-usb2=y
            CONFIG_PACKAGE_kmod-usb2-pci=y
            CONFIG_PACKAGE_kmod-usb3=y
-           EOF
+          EOF
            
           cat >> .config <<EOF 
            CONFIG_PACKAGE_luci-app-adbyby-plus=y
@@ -148,13 +147,12 @@ jobs:
            CONFIG_PACKAGE_helloworld=y
            CONFIG_PACKAGE_luci-app-ssr-plus=y
            CONFIG_PACKAGE_OpenClash=y
-           CONFIG_PACKAGE_small=y
            CONFIG_PACKAGE_openwrt-passwall=y
-           EOF
+          EOF
            
           cat >> .config <<EOF 
            CONFIG_PACKAGE_luci-theme-argon=y
-           EOF
+          EOF
            
           cat >> .config <<EOF
            CONFIG_PACKAGE_curl=y
@@ -164,21 +162,20 @@ jobs:
            CONFIG_PACKAGE_tree=y
            CONFIG_PACKAGE_vim-fuller=y
            CONFIG_PACKAGE_wget=y
-           EOF
+          EOF
            
           cat >> .config <<EOF
           # CONFIG_TARGET_IMAGES_PAD is not set
           # CONFIG_VMDK_IMAGES is not set
-           EOF
+          EOF
 
           sed -i 's/^[ \t]*//g' ./.config
           make defconfig
 
       - name: Make download
         run: |
-          make download -j8 || make download -j1 V=s
-          rm -rf $(find ./dl/ -size -1024c)
-          df -h
+          make download -j8
+          find dl -size -1024c -exec rm -f {} \;
 
       - name: Compile firmware
         run: |
@@ -188,9 +185,10 @@ jobs:
           echo "======================="
           df -h
           echo "======================="
-          du -h ./ --max-depth=1
-          du -h /mnt/openwrt/ --max-depth=1 || true
-
+          du -h --max-depth=1 ./ --exclude=build_dir --exclude=bin
+          du -h --max-depth=1 ./build_dir
+          du -h --max-depth=1 ./bin
+          
       - name: Prepare artifact
         run: |
           mkdir -p ./artifact/firmware
