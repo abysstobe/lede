@@ -13,8 +13,8 @@ on:
   push:
     branches: 
       - master
-  #schedule:
-    #- cron: 40 3 * * *
+  schedule:
+    - cron: 21 9 * * *
   release:
     types: [published]
 
@@ -83,15 +83,13 @@ jobs:
           cat >> .config <<EOF
            CONFIG_TARGET_IMAGES_GZIP=y
           EOF
-		  
-          cat >> .config <<EOF
-           CONFIG_EFI_IMAGES=y
-          EOF
-		  
-          cat >> .config <<EOF
-            CONFIG_GRUB_IMAGES=y
-          EOF
-           
+	  
+	  cat >> .config <<EOF
+
+	   CONFIG_GRUB_IMAGES=y
+	   CONFIG_EFI_IMAGES=n
+           EOF
+	   
           cat >> .config <<EOF
            CONFIG_PACKAGE_dnsmasq_full_dhcpv6=y
            CONFIG_PACKAGE_ipv6helper=y
