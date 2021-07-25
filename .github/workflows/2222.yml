@@ -13,8 +13,8 @@ on:
   push:
     branches: 
       - master
-  schedule:
-    - cron: 40 3 * * *
+  #schedule:
+    #- cron: 40 3 * * *
   release:
     types: [published]
 
@@ -84,12 +84,12 @@ jobs:
            CONFIG_TARGET_IMAGES_GZIP=y
           EOF
 		  
-		      cat >> .config <<EOF
+          cat >> .config <<EOF
            CONFIG_EFI_IMAGES=y
           EOF
 		  
-		      cat >> .config <<EOF
-		       CONFIG_GRUB_IMAGES=y
+          cat >> .config <<EOF
+            CONFIG_GRUB_IMAGES=y
           EOF
            
           cat >> .config <<EOF
