@@ -14,7 +14,7 @@ on:
     branches: 
       - master
   schedule:
-    - cron: 58 3 * * *
+    - cron: 15 4 * * *
   release:
     types: [published]
 
