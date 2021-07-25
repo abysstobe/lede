@@ -14,7 +14,7 @@ on:
     branches: 
       - master
   schedule:
-    - cron: 15 4 * * *
+    - cron: 30 4 * * *
   release:
     types: [published]
 
@@ -81,12 +81,7 @@ jobs:
           EOF
            
           cat >> .config <<EOF
-           CONFIG_TARGET_IMAGES_GZIP=y
-          EOF
-           
-          cat >> .config <<EOF
            CONFIG_GRUB_IMAGES=y
-           CONFIG_EFI_IMAGES=n
            EOF
            
           cat >> .config <<EOF
